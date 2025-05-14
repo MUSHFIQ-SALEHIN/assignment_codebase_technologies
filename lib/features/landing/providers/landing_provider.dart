@@ -34,7 +34,7 @@ class PaginationNotifier extends StateNotifier<PaginationState<UserModel>> {
         hasMoreData: newItems.isNotEmpty, // Only true if more data exist
       );
     } catch (e) {
-      state = state.copyWith(isLoading: false, error: 'Failed to load data');
+      state = state.copyWith(isLoading: false, error: 'Failed to load users');
     }
   }
 

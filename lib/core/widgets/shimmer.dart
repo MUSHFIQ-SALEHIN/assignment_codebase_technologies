@@ -24,6 +24,7 @@ class DefaultShimmer extends StatelessWidget {
     return ListView.builder(
       padding: padding ?? const EdgeInsets.all(16),
       scrollDirection: direction,
+      shrinkWrap: true,
       itemCount: itemCount,
       itemBuilder: (_, __) {
         return Padding(

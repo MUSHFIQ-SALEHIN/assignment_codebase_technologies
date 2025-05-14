@@ -16,11 +16,11 @@ class NoInternetScreen extends ConsumerWidget {
     if (connectivity != ConnectivityResult.none) {
       Future.microtask(() {
         if (Navigator.canPop(context)) {
-          Navigator.of(context).pop(); // return to previous screen
+          Navigator.pop(context); // return to previous screen
         } else {
-          Navigator.of(
+          /*  Navigator.of(
             context,
-          ).pushNamedAndRemoveUntil(RouteNames.splash, (route) => false);
+          ).pushNamedAndRemoveUntil(RouteNames.splash, (route) => false); */
         }
       });
     }

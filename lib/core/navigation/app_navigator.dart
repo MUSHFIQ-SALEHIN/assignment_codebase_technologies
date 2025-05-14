@@ -1,6 +1,7 @@
 import 'package:codebase_assignment/core/utils/logger.dart';
 import 'package:codebase_assignment/features/errorScreens/no_internet.dart';
 import 'package:codebase_assignment/features/landing/presentation/landing_screen.dart';
+import 'package:codebase_assignment/features/user_details/presentation/user_details_screen.dart';
 import 'package:flutter/material.dart';
 
 abstract class RouteNames {
@@ -22,7 +23,10 @@ abstract class AppNavigator {
       case RouteNames.landing:
         return MaterialPageRoute(builder: (_) => LandingScreen());
       case RouteNames.userDetails:
-        return MaterialPageRoute(builder: (_) => UserDetailsScreen());
+        var loginName = settings.arguments as String;
+        return MaterialPageRoute(
+          builder: (_) => UserDetailsScreen(loginName: loginName),
+        );
       case RouteNames.noInternet:
         return MaterialPageRoute(builder: (_) => NoInternetScreen());
       default:

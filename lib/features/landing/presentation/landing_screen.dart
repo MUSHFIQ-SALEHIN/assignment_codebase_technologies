@@ -1,3 +1,6 @@
+import 'package:codebase_assignment/core/navigation/app_navigator.dart';
+import 'package:codebase_assignment/core/service/internet_service.dart';
+import 'package:codebase_assignment/core/utils/loader.dart';
 import 'package:codebase_assignment/core/utils/logger.dart';
 import 'package:codebase_assignment/core/utils/sizes.dart';
 import 'package:codebase_assignment/core/widgets/global_appbar.dart';
@@ -15,14 +18,16 @@ class LandingScreen extends ConsumerStatefulWidget {
 
 class _LandingScreenState extends ConsumerState<LandingScreen> {
   late final ScrollController _scrollController;
+  late final InternetHandler _internetHandler;
 
   @override
   void initState() {
     super.initState();
     _scrollController = ScrollController()..addListener(_onScroll);
-    // Trigger first load
+    _internetHandler = InternetHandler(context: context, ref: ref);
+    // Trigger first load with 15 items
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(userPaginationNotifierProvider.notifier).fetchNextPage(10);
+      ref.read(userPaginationNotifierProvider.notifier).fetchNextPage(15);
     });
   }
 
@@ -42,6 +47,7 @@ class _LandingScreenState extends ConsumerState<LandingScreen> {
       final notifier = ref.read(userPaginationNotifierProvider.notifier);
       final state = ref.read(userPaginationNotifierProvider);
       if (!state.isLoading && state.hasMoreData) {
+        // Load more with 10 items
         notifier.fetchNextPage(10);
       } else {
         AppLogger.i('Empty');
@@ -59,6 +65,7 @@ class _LandingScreenState extends ConsumerState<LandingScreen> {
   @override
   Widget build(BuildContext context) {
     final paginationState = ref.watch(userPaginationNotifierProvider);
+    _internetHandler.init();
     return Scaffold(
       appBar: GlobalAppBar(title: "", cangoBack: false),
       body: Container(
@@ -70,24 +77,43 @@ class _LandingScreenState extends ConsumerState<LandingScreen> {
             SliverToBoxAdapter(child: AppSpacing.verticalSpaceS(context)),
 
             /// Loading State
-            if (paginationState.data.isEmpty && paginationState.isLoading)
-              SliverToBoxAdapter(child: DefaultShimmer())
+            if (paginationState.isLoading && paginationState.data.isEmpty)
+              const SliverToBoxAdapter(child: DefaultShimmer()),
+
             /// List of Items
-            else if (paginationState.data.isNotEmpty)
+            if (paginationState.data.isNotEmpty)
               SliverList(
                 delegate: SliverChildListDelegate(
                   paginationState.data.map((item) {
-                    return ListTile(
-                      leading: CircleAvatar(
-                        backgroundImage: NetworkImage(item.avatarUrl ?? ""),),
-                      title: Text(item.login ?? ""));
+                    return Padding(
+                      padding: EdgeInsets.only(
+                        bottom: AppSpacing.paddingVerticalS(context).bottom,
+                      ),
+                      child: Card(
+                        elevation: 2,
+                        child: ListTile(
+                          onTap: () {
+                            Navigator.pushNamed(
+                              context,
+                              RouteNames.userDetails,
+                              arguments: item.login,
+                            );
+                          },
+                          leading: CircleAvatar(
+                            backgroundImage: NetworkImage(item.avatarUrl ?? ""),
+                          ),
+                          title: Text(item.login ?? ""),
+                        ),
+                      ),
+                    );
                   }).toList(),
                 ),
-              )
-            /// No Data
-            else
+              ),
+
+            /// No Data Message (only when not loading and data is empty)
+            if (!paginationState.isLoading && paginationState.data.isEmpty)
               const SliverToBoxAdapter(
-                child: Center(child: Text("No data found")),
+                child: Center(child: Text("No users found")),
               ),
           ],
         ),

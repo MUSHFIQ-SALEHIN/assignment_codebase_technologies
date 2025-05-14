@@ -24,14 +24,17 @@ class ApiClient {
     : _dio = Dio(
         BaseOptions(
           baseUrl: kDebugMode ? baseUrlDevelopment : baseUrlProduction,
-          headers: token == null ? null : {'Authorization': 'Bearer $token'},
+          headers:
+              token == null || token.isEmpty
+                  ? null
+                  : {'Authorization': 'Bearer $token'},
         ),
       ) {
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
           final context = AppNavigator.navigatorKey.currentContext!;
-          final container = ProviderScope.containerOf(context, listen: false);
+          final container = ProviderScope.containerOf(context, listen: true);
           // Fetch the latest connectivity status from the cached provider
           final connectivityStatus = container.read(connectivityStatusProvider);
 

@@ -20,6 +20,7 @@ class GlobalAppBar extends StatelessWidget implements PreferredSizeWidget {
         style: AppTextStyles.bodyM(context).copyWith(color: Colors.green),
       ),
       backgroundColor: Colors.white,
+      automaticallyImplyLeading: false,
       centerTitle: false,
       leading:
           cangoBack

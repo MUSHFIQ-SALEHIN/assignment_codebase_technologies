@@ -86,7 +86,6 @@ class UserModel {
   };
 }
 
-
 List<UserModel> getUserListFromJson(List<dynamic> jsonList) {
   return jsonList.map((json) => UserModel.fromJson(json)).toList();
 }

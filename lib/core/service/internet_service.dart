@@ -11,7 +11,7 @@ final internetStatusProvider = StreamProvider<List<ConnectivityResult>>((ref) {
 
 /// Cached latest connectivity status for sync access (e.g., in Dio)
 final connectivityStatusProvider = StateProvider<ConnectivityResult>((ref) {
-  return ConnectivityResult.none;
+  return ConnectivityResult.wifi;
 });
 
 class InternetHandler {
@@ -31,7 +31,6 @@ class InternetHandler {
           // Log the status for debugging
           AppLogger.i("Connectivity Status Changed: ${status.name}");
 
-          // We consider any connectivity except `none` and `other` as "has internet"
           return status != ConnectivityResult.none &&
               status != ConnectivityResult.other;
         });
@@ -54,10 +53,7 @@ class InternetHandler {
         // Handle "No Internet" page navigation
         if (!hasInternet) {
           AppLogger.w("No internet connection detected.");
-          Navigator.of(context).pushNamedAndRemoveUntil(
-            RouteNames.noInternet,
-            (Route<dynamic> route) => false,
-          );
+          Navigator.of(context).pushNamed(RouteNames.noInternet);
         } else {
           // Handle returning from "No Internet" page if connection is restored
           if (ModalRoute.of(context)?.settings.name == RouteNames.noInternet) {
