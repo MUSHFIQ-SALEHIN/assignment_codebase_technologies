@@ -28,8 +28,8 @@ void showCustomSnackBar(
           Icon(icon, color: Colors.white),
           const SizedBox(width: 10),
           Expanded(
-              child:
-                  Text(message, style: const TextStyle(color: Colors.white))),
+            child: Text(message, style: const TextStyle(color: Colors.white)),
+          ),
         ],
       ),
       behavior: SnackBarBehavior.floating,
@@ -60,22 +60,23 @@ void showCustomDialog(
 
   showDialog(
     context: context,
-    builder: (context) => AlertDialog(
-      title: Row(
-        children: [
-          Icon(icon, color: iconColor),
-          const SizedBox(width: 10),
-          Text(title),
-        ],
-      ),
-      content: Text(message),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: const Text("OK"),
+    builder:
+        (context) => AlertDialog(
+          title: Row(
+            children: [
+              Icon(icon, color: iconColor),
+              const SizedBox(width: 10),
+              Text(title),
+            ],
+          ),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text("OK"),
+            ),
+          ],
         ),
-      ],
-    ),
   );
 }
 

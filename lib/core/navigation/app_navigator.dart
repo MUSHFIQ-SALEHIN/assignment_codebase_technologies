@@ -7,7 +7,7 @@ abstract class RouteNames {
   RouteNames._();
   static const String landing = '/landing';
   static const String userDetails = '/userDetails';
-  static const String noInternet='/noInternet';
+  static const String noInternet = '/noInternet';
 }
 
 abstract class AppNavigator {
@@ -19,11 +19,11 @@ abstract class AppNavigator {
   static Route<dynamic> generateRoutes(RouteSettings settings) {
     AppLogger.i("Current Route==>> ${settings.name}");
     switch (settings.name) {
-        case RouteNames.landing:
+      case RouteNames.landing:
         return MaterialPageRoute(builder: (_) => LandingScreen());
-        case RouteNames.userDetails:   
+      case RouteNames.userDetails:
         return MaterialPageRoute(builder: (_) => UserDetailsScreen());
-        case RouteNames.noInternet:
+      case RouteNames.noInternet:
         return MaterialPageRoute(builder: (_) => NoInternetScreen());
       default:
         return MaterialPageRoute(

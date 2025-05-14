@@ -5,15 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 
-
-
 class NoInternetScreen extends ConsumerWidget {
   const NoInternetScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final connectivity = ref.watch(connectivityStatusProvider);
-    
 
     // Automatically pop back when internet returns
     if (connectivity != ConnectivityResult.none) {

@@ -10,16 +10,23 @@ class AppLogger {
       colors: true,
       printEmojis: true,
       dateTimeFormat: DateTimeFormat.none,
-      noBoxingByDefault: true
+      noBoxingByDefault: true,
     ),
   );
 
-  static void _log(void Function(dynamic) logFunction, dynamic message,
-      {Object? error, StackTrace? stackTrace}) {
+  static void _log(
+    void Function(dynamic) logFunction,
+    dynamic message, {
+    Object? error,
+    StackTrace? stackTrace,
+  }) {
     if (kDebugMode) {
       if (error != null) {
-        _logger.e("🚨 ERROR: $message",
-            error: error, stackTrace: stackTrace ?? StackTrace.current);
+        _logger.e(
+          "🚨 ERROR: $message",
+          error: error,
+          stackTrace: stackTrace ?? StackTrace.current,
+        );
       } else {
         logFunction(message);
       }

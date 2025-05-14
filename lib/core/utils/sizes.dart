@@ -7,22 +7,22 @@ class AppSpacing {
   // Helper function to get responsive values
   static double _getResponsiveValue(BuildContext context, double value) {
     double screenWidth = MediaQuery.of(context).size.width;
-    return value * (screenWidth / 375);  // Assuming 375 is the base width
+    return value * (screenWidth / 375); // Assuming 375 is the base width
   }
 
   // Global Padding Sizes
   static EdgeInsets paddingXS(BuildContext context) =>
-      EdgeInsets.all(_getResponsiveValue(context, 4.0)); 
+      EdgeInsets.all(_getResponsiveValue(context, 4.0));
   static EdgeInsets paddingS(BuildContext context) =>
-      EdgeInsets.all(_getResponsiveValue(context, 8.0)); 
+      EdgeInsets.all(_getResponsiveValue(context, 8.0));
   static EdgeInsets paddingM(BuildContext context) =>
-      EdgeInsets.all(_getResponsiveValue(context, 12.0)); 
+      EdgeInsets.all(_getResponsiveValue(context, 12.0));
   static EdgeInsets paddingL(BuildContext context) =>
-      EdgeInsets.all(_getResponsiveValue(context, 16.0)); 
+      EdgeInsets.all(_getResponsiveValue(context, 16.0));
   static EdgeInsets paddingXL(BuildContext context) =>
-      EdgeInsets.all(_getResponsiveValue(context, 24.0)); 
+      EdgeInsets.all(_getResponsiveValue(context, 24.0));
   static EdgeInsets paddingXXL(BuildContext context) =>
-      EdgeInsets.all(_getResponsiveValue(context, 32.0)); 
+      EdgeInsets.all(_getResponsiveValue(context, 32.0));
 
   // Horizontal Padding
   static EdgeInsets paddingHorizontalXS(BuildContext context) =>
@@ -54,17 +54,17 @@ class AppSpacing {
 
   // Global Margin Sizes
   static EdgeInsets marginXS(BuildContext context) =>
-      EdgeInsets.all(_getResponsiveValue(context, 4.0)); 
+      EdgeInsets.all(_getResponsiveValue(context, 4.0));
   static EdgeInsets marginS(BuildContext context) =>
-      EdgeInsets.all(_getResponsiveValue(context, 8.0)); 
+      EdgeInsets.all(_getResponsiveValue(context, 8.0));
   static EdgeInsets marginM(BuildContext context) =>
-      EdgeInsets.all(_getResponsiveValue(context, 12.0)); 
+      EdgeInsets.all(_getResponsiveValue(context, 12.0));
   static EdgeInsets marginL(BuildContext context) =>
-      EdgeInsets.all(_getResponsiveValue(context, 16.0)); 
+      EdgeInsets.all(_getResponsiveValue(context, 16.0));
   static EdgeInsets marginXL(BuildContext context) =>
-      EdgeInsets.all(_getResponsiveValue(context, 24.0)); 
+      EdgeInsets.all(_getResponsiveValue(context, 24.0));
   static EdgeInsets marginXXL(BuildContext context) =>
-      EdgeInsets.all(_getResponsiveValue(context, 32.0)); 
+      EdgeInsets.all(_getResponsiveValue(context, 32.0));
 
   // Horizontal Margin
   static EdgeInsets marginHorizontalXS(BuildContext context) =>
@@ -128,39 +128,50 @@ class AppTextStyles {
   static double _getResponsiveFontSize(BuildContext context, double fontSize) {
     double screenWidth = MediaQuery.of(context).size.width;
     // Scaling font size based on screen width (you can fine-tune this formula)
-    return fontSize * (screenWidth / 375);  // Assuming 375 is the base width (like for iPhone 6)
+    return fontSize *
+        (screenWidth /
+            375); // Assuming 375 is the base width (like for iPhone 6)
   }
 
   // Headings
   static TextStyle headingXL(BuildContext context) => TextStyle(
-      fontSize: _getResponsiveFontSize(context, 32.0),
-      fontWeight: FontWeight.bold);
+    fontSize: _getResponsiveFontSize(context, 32.0),
+    fontWeight: FontWeight.bold,
+  );
   static TextStyle headingL(BuildContext context) => TextStyle(
-      fontSize: _getResponsiveFontSize(context, 28.0),
-      fontWeight: FontWeight.bold);
+    fontSize: _getResponsiveFontSize(context, 28.0),
+    fontWeight: FontWeight.bold,
+  );
   static TextStyle headingM(BuildContext context) => TextStyle(
-      fontSize: _getResponsiveFontSize(context, 24.0),
-      fontWeight: FontWeight.bold);
+    fontSize: _getResponsiveFontSize(context, 24.0),
+    fontWeight: FontWeight.bold,
+  );
   static TextStyle headingS(BuildContext context) => TextStyle(
-      fontSize: _getResponsiveFontSize(context, 20.0),
-      fontWeight: FontWeight.bold);
+    fontSize: _getResponsiveFontSize(context, 20.0),
+    fontWeight: FontWeight.bold,
+  );
 
   // Body Text
   static TextStyle bodyL(BuildContext context) => TextStyle(
-      fontSize: _getResponsiveFontSize(context, 18.0),
-      fontWeight: FontWeight.normal);
+    fontSize: _getResponsiveFontSize(context, 18.0),
+    fontWeight: FontWeight.normal,
+  );
   static TextStyle bodyM(BuildContext context) => TextStyle(
-      fontSize: _getResponsiveFontSize(context, 16.0),
-      fontWeight: FontWeight.normal);
+    fontSize: _getResponsiveFontSize(context, 16.0),
+    fontWeight: FontWeight.normal,
+  );
   static TextStyle bodyS(BuildContext context) => TextStyle(
-      fontSize: _getResponsiveFontSize(context, 14.0),
-      fontWeight: FontWeight.normal);
+    fontSize: _getResponsiveFontSize(context, 14.0),
+    fontWeight: FontWeight.normal,
+  );
 
   // Captions & Labels
   static TextStyle caption(BuildContext context) => TextStyle(
-      fontSize: _getResponsiveFontSize(context, 12.0),
-      fontWeight: FontWeight.w400);
+    fontSize: _getResponsiveFontSize(context, 12.0),
+    fontWeight: FontWeight.w400,
+  );
   static TextStyle label(BuildContext context) => TextStyle(
-      fontSize: _getResponsiveFontSize(context, 10.0),
-      fontWeight: FontWeight.w400);
+    fontSize: _getResponsiveFontSize(context, 10.0),
+    fontWeight: FontWeight.w400,
+  );
 }
