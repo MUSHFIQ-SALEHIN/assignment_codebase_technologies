@@ -85,3 +85,8 @@ class UserModel {
     'site_admin': siteAdmin,
   };
 }
+
+
+List<UserModel> getUserListFromJson(List<dynamic> jsonList) {
+  return jsonList.map((json) => UserModel.fromJson(json)).toList();
+}
