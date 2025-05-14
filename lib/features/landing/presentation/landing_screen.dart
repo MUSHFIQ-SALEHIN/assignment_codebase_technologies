@@ -65,56 +65,94 @@ class _LandingScreenState extends ConsumerState<LandingScreen> {
   @override
   Widget build(BuildContext context) {
     final paginationState = ref.watch(userPaginationNotifierProvider);
+    final searchQuery = ref.watch(searchQueryProvider);
+
     _internetHandler.init();
+
+    // Filtered list based on search query
+    final filteredData =
+        paginationState.data.where((user) {
+          final query = searchQuery.toLowerCase();
+          final name = (user.login ?? '').toLowerCase();
+          return name.contains(query);
+        }).toList();
+
     return Scaffold(
       appBar: GlobalAppBar(title: "", cangoBack: false),
-      body: Container(
-        padding: AppSpacing.paddingL(context),
-        child: CustomScrollView(
-          controller: _scrollController,
-          slivers: [
-            /// Spacing
-            SliverToBoxAdapter(child: AppSpacing.verticalSpaceS(context)),
-
-            /// Loading State
-            if (paginationState.isLoading && paginationState.data.isEmpty)
-              const SliverToBoxAdapter(child: DefaultShimmer()),
-
-            /// List of Items
-            if (paginationState.data.isNotEmpty)
-              SliverList(
-                delegate: SliverChildListDelegate(
-                  paginationState.data.map((item) {
-                    return Padding(
-                      padding: EdgeInsets.only(
-                        bottom: AppSpacing.paddingVerticalS(context).bottom,
-                      ),
-                      child: Card(
-                        elevation: 2,
-                        child: ListTile(
-                          onTap: () {
-                            Navigator.pushNamed(
-                              context,
-                              RouteNames.userDetails,
-                              arguments: item.login,
-                            );
-                          },
-                          leading: CircleAvatar(
-                            backgroundImage: NetworkImage(item.avatarUrl ?? ""),
-                          ),
-                          title: Text(item.login ?? ""),
-                        ),
-                      ),
-                    );
-                  }).toList(),
+      body: RefreshIndicator(
+        onRefresh: () {
+          return ref
+              .read(userPaginationNotifierProvider.notifier)
+              .loadFirstPage(15);
+        },
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              child: TextField(
+                onChanged: (value) {
+                  ref.read(searchQueryProvider.notifier).state = value;
+                },
+                decoration: InputDecoration(
+                  hintText: 'Search by name...',
+                  prefixIcon: const Icon(Icons.search),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
                 ),
               ),
-
-            /// No Data Message (only when not loading and data is empty)
-            if (!paginationState.isLoading && paginationState.data.isEmpty)
-              const SliverToBoxAdapter(
-                child: Center(child: Text("No users found")),
+            ),
+            Expanded(
+              child: CustomScrollView(
+                controller: _scrollController,
+                slivers: [
+                  /// Spacing
+                  SliverToBoxAdapter(child: AppSpacing.verticalSpaceS(context)),
+        
+                  /// Shimmer while loading initial data
+                  if (paginationState.isLoading && paginationState.data.isEmpty)
+                    const SliverToBoxAdapter(child: DefaultShimmer()),
+        
+                  /// Filtered list
+                  if (filteredData.isNotEmpty)
+                    SliverList(
+                      delegate: SliverChildListDelegate(
+                        filteredData.map((item) {
+                          return Padding(
+                            padding: EdgeInsets.only(
+                              bottom: AppSpacing.paddingVerticalS(context).bottom,
+                            ),
+                            child: Card(
+                              elevation: 2,
+                              child: ListTile(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    RouteNames.userDetails,
+                                    arguments: item.login,
+                                  );
+                                },
+                                leading: CircleAvatar(
+                                  backgroundImage: NetworkImage(
+                                    item.avatarUrl ?? "",
+                                  ),
+                                ),
+                                title: Text(item.login ?? ""),
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+        
+                  /// No results found (after filtering)
+                  if (!paginationState.isLoading && filteredData.isEmpty)
+                    const SliverToBoxAdapter(
+                      child: Center(child: Text("No users found")),
+                    ),
+                ],
               ),
+            ),
           ],
         ),
       ),

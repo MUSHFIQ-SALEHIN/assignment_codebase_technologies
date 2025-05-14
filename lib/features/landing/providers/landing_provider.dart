@@ -13,6 +13,8 @@ final userPaginationNotifierProvider = StateNotifierProvider.autoDispose<
   PaginationState<UserModel>
 >((ref) => PaginationNotifier(ref.read(userRepoProvider)));
 
+final searchQueryProvider = StateProvider<String>((ref) => '');
+
 class PaginationNotifier extends StateNotifier<PaginationState<UserModel>> {
   final ILandingRepository repository;
 
@@ -42,7 +44,7 @@ class PaginationNotifier extends StateNotifier<PaginationState<UserModel>> {
     state = PaginationState.initial();
   }
 
-  Future<void> loadFirstPage(String endpoint, int perPage, int areaId) async {
+  Future<void> loadFirstPage(int perPage) async {
     state = PaginationState.initial(); // Reset state
     await fetchNextPage(perPage); // Load page 1
   }
