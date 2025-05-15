@@ -21,6 +21,13 @@ class LandingRepository implements ILandingRepository {
       );
       List<dynamic> data = response.data;
       return getUserListFromJson(data);
+    } on DioException catch (dioError, st) {
+      final errorMessage =
+          dioError.response?.data['error'] ??
+          dioError.response?.data['message'] ??
+          "Failed to check update type!";
+      AppLogger.e(st.toString());
+      throw Exception(errorMessage);
     } catch (e, st) {
       AppLogger.e(e.toString());
       AppLogger.e(st.toString());

@@ -1,6 +1,5 @@
 import 'package:codebase_assignment/core/constants/urls.dart';
 import 'package:codebase_assignment/core/utils/logger.dart';
-import 'package:codebase_assignment/features/landing/domain/user_model.dart';
 import 'package:codebase_assignment/features/user_details/domain/user_detail_model.dart';
 import 'package:dio/dio.dart';
 
@@ -19,6 +18,13 @@ class UserDetailsRepository implements IUserDetailsRepository {
       final response = await _dio.get("${ApiEndpoints.users}/$loginName");
       UserDetailModel data = UserDetailModel.fromJson(response.data);
       return data;
+    } on DioException catch (dioError, st) {
+      final errorMessage =
+          dioError.response?.data['error'] ??
+          dioError.response?.data['message'] ??
+          "Failed to check update type!";
+      AppLogger.e(st.toString());
+      throw Exception(errorMessage);
     } catch (e, st) {
       AppLogger.e(e.toString());
       AppLogger.e(st.toString());
