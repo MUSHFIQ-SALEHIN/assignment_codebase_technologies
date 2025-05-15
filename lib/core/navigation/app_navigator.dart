@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 abstract class RouteNames {
   RouteNames._();
-  static const String landing = '/landing';
+  static const String landing = 'landing';
   static const String userDetails = '/userDetails';
   static const String noInternet = '/noInternet';
 }
